@@ -2,7 +2,11 @@
 
 int main(void)
 {
-    printf("Hello, World!\n");
-    printf("Test\n");
+    int num = 0;
+    printf("Hello?\n");
+    scanf("%i", &num);
+    if (num > 0) {
+        printf("Hello, World!\n");
+    }
     return 0;
 }
