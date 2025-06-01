@@ -5,8 +5,7 @@ const int arrONES = 0;
 const int arrTEENS = 1;
 const int arrTENS = 2;
 
-const int THSND = 1000;
-const int MIL = 1000000;
+int THSND = 1000;
 
 // 2D library of numbers in English
 char *numLib[3][10] = {
@@ -14,46 +13,50 @@ char *numLib[3][10] = {
     {"ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"},
     {"twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"},
 };
+char *bigLib[] = {"thousand", "million", "billion", "trillion"};
 
 // Prototypes
-int digit_counter(int n);
-void ones_huns(int n);
+int digit_counter(long long n);
+void ones_huns(long long n);
 
 int main(void)
 {
     // Number grabber
-    int num = 0;
+    long long num = 0;
     printf("Number: ");
-    if (scanf("%i", &num) != 1)
+    if (scanf("%lli", &num) != 1)
     {
         printf("Input error.\n");
         return 1;
     }
 
     int digits = digit_counter(num);
-
-    // Prints all millions place-values
-    if (digits >= 7)
+    // Iterates through num from left to right
+    while (digits > 0)
     {
-        ones_huns(num / MIL);
-        printf(" million ");
+        int bigFactor = (digits - 4) / 3;
+        if (digits < 4)
+        {
+            ones_huns(num);
+        }
+        else
+        {
+            long long tempFACTOR = THSND;
+            for (int j = 0; j < bigFactor; j++)
+            {
+                tempFACTOR *= THSND;
+            }
+            ones_huns(num / tempFACTOR);
+            printf(" %s ", bigLib[bigFactor]);
+        }
+        digits -= 3;
     }
-
-    // Prints all thousands place-values if present
-    if (digits >= 4 && (num / THSND) % THSND > 0)
-    {
-        ones_huns(num / THSND);
-        printf(" thousand ");
-    }
-
-    // Prints 1-999
-    ones_huns(num);
 
     printf("\n");
     return 0;
 }
 
-int digit_counter(int n)
+int digit_counter(long long n)
 {
     int i = 0;
     while (n != 0)
@@ -64,7 +67,7 @@ int digit_counter(int n)
     return i;
 }
 
-void ones_huns(int n)
+void ones_huns(long long n)
 {
     int hunVal = (n / 100) % 10;
     int tenVal = (n / 10) % 10;
