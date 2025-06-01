@@ -4,8 +4,7 @@
 const int arrONES = 0;
 const int arrTEENS = 1;
 const int arrTENS = 2;
-
-int THSND = 1000;
+const int THSND = 1000;
 
 // 2D library of numbers in English
 char *numLib[3][10] = {
