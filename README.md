@@ -12,3 +12,13 @@ These projects are usually quite *small*, but a few of them are *probably* kind 
   + Random D6 roller up to 25 dice, OR manually choose limitless # of sides AND # of dice!
 ### Notes
 + numnames.c does not work with flat numbers past the thousands... (i.e. 9000000 -> nine million  thousand )
+## Ideas
+- Incremental clicker game
+- Bicycle racing incremental
+  - similar to 'Duck Life' loop
+- Use file I/O to save data
+- Terminal-based periodic table
+  - option to toggle whole view or individual data points, or to do flashcard mode: reveal data after element is chosen
+  - add flashcardable topics as year goes on?
+- Terminal-based dot book
+  - similar to periodic table functionality
