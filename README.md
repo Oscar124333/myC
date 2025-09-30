@@ -1,2 +1,12 @@
-# myC
-misc projects
+# myC | Oscar
+Hi! This is Oscar's small page for `miscellaneous projects` that come to mind whenever and wherever.
+These projects are usually quite *small*, but a few of them are *probably* kind of fun!
+## Current Projects
++ hello.c
+ + Simple & interactive `Hello World` program!
++ fibonacci.c
+ + Gives a Fibonacci number from the user's desired *n* of Fibonacci.
++ numnames.c
+ + Writes out the English word for the user's desired *whole* number, up to one quadrillion (not including)
++ diceroll.c
+ + Random D6 roller up to 25 dice, OR manually choose limitless # of sides AND # of dice!
