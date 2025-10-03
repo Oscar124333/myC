@@ -24,15 +24,16 @@ int main(void)
     srand(time(NULL));
 
     // Figure out user's desired function
-    int userInput = 0;
+    int userInput = 1;
     lineBreak();
     printf("Welcome to Oscar's Dice Roller!\n");
-    while (userInput != uRandom && userInput != uManual && userInput != uExit)  // Loop until valid input given
+    do
     {
         printf("\nWould you like a completely random dice roll or to manually control and roll your dice?\n1: Random\n2: Manual\n9: Exit the Program\n--> ");
         scanf("%d", &userInput);
     }
-
+    while (userInput != uRandom && userInput != uManual && userInput != uExit);  // Loop until valid input given
+    
     // Function call based on userInput
     if (userInput == uExit)
     {
