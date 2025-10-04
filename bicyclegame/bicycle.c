@@ -46,21 +46,15 @@ void lines(int num, int space, int newline)
         }
     }
 
-    f(0) = xxx
-    f(1) = []xxx
-    f(2) = []xxx[]
-    f(3) = [][]xxx[]
-    f(4) = [][]xxx[][]
-                 2         4
     for (int i = 0, j = 0; i < newline; i++)
     {
         if (i % 2 = 0)
         {
-            str[i - (++j)] = '\n'
+            str[i - (++j)] = '\n';
         }
         else
         {
-            str[strAmnt - i] = '\n'
+            str[strAmnt - i] = '\n';
         }
     }
 
