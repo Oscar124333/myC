@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 #include <unistd.h>
 
 // Variable Declaratiom
@@ -8,7 +9,7 @@ int userInput;
 
 // Utility Prototypes
 void wait(float seconds);
-void lines(int num, int space, int newline);
+void lines(int num, int strAmnt, int newline);
 
 int main(void)
 {/*
@@ -19,7 +20,7 @@ int main(void)
     printf("\nYou input: %i\n", userInput);
     */
     
-    lines(20, 1, 0);
+    lines(2, 1, 2);
 }
 
 void wait(float seconds)
@@ -30,17 +31,39 @@ void wait(float seconds)
 
 void lines(int num, int space, int newline)
 {
-    int total = num + (space * (num - 1)) + newline;
-    char str[total + 1];
-    for (int i = 0; i < total; i += space)
+    int strEnd = 1;
+    int strAmnt = num + (space * (num - 1)) + newline + strEnd; // Amount of memory to allocate to str
+    char str[strAmnt];
+    
+    newlineIncr = ceil(newline/2.0); // For the following loop; tells # of extra space at start.
+    for (int i = 0; i < strAmnt; i += space + newlineIncr)
     {
         str[i] = '*';
         i++;
-        for (int j = 0; j < space && i < total; j++)
+        for (int j = 0; j < space && i < strAmnt; j++)
         {
             str[i + j] = ' ';
         }
     }
-    str[total] = '\0';
+
+    f(0) = xxx
+    f(1) = []xxx
+    f(2) = []xxx[]
+    f(3) = [][]xxx[]
+    f(4) = [][]xxx[][]
+                 2         4
+    for (int i = 0, j = 0; i < newline; i++)
+    {
+        if (i % 2 = 0)
+        {
+            str[i - (++j)] = '\n'
+        }
+        else
+        {
+            str[strAmnt - i] = '\n'
+        }
+    }
+
+    str[strAmnt] = '\0';
     printf("%s\n", str);
 }
