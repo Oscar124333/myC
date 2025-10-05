@@ -1,23 +1,26 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <unistd.h>
 
 // Variable Declarations
-int userInput;
+int userInput = 0;
+int lineDefault = 20;
 
 // Gameplay Prototypes
 
 // Utility Prototypes
 void wait(float seconds);
-void line(int astNum, int astSpace, int nlBefore, int nlAfter);
+void lineBreak(int astNum, int astSpace, int nlBefore, int nlAfter);
 
 // Interface Prototypes
-void options(void);
-void info(void);
-void credits(void);
+void menuOptions(void);
+void menuInfo(void);
+void menuCredits(void);
+bool menuSaves(int saveNum);
 
 int main(void)
 {
-    line(20,1,3,0);
+    lineBreak(lineDefault,1,3,0);
     printf("Welcome to Oscar's Bicycle Game!\n");
     printf("Please use numbers to indicate your choices.\n");
     enum MenuStart{
@@ -34,30 +37,39 @@ int main(void)
         printf("==> ");
         scanf("%i", &userInput);
         printf("\nYou input: %i\n", userInput);
-      
-        line(15, 1, 1, 0);
+        
+        lineBreak(lineDefault, 1, 1, 0);
         if (userInput == MS_OPTIONS)
         {
-            options();
+            menuOptions();
         }
         else if (userInput == MS_INFO_HOW)
         {
-            info();
+            menuInfo();
         }
         else if (userInput == MS_CREDITS)
         {
-            credits();
+            menuCredits();
         }
         else if (userInput == MS_EXIT)
         {
             return 1;
         }
-        line(15, 1, 1, 0);
+        lineBreak(lineDefault, 1, 1, 0);
     }
     while (userInput != MS_START);
+    
+    printf("you started the game!\nwow!\n");
 
-    printf("you started the game!\nwow!");
-    line(15, 1, 1, 0);
+    lineBreak(lineDefault, 1, 1, 0);
+    printf("please choose your save: ");
+    scanf("%i", &userInput);
+    if (menuSaves(userInput))
+    {
+        int userSave = userInput;
+    }
+    
+    lineBreak(lineDefault, 1, 0, 0);
 }
 
 /***********************/
@@ -69,17 +81,34 @@ int main(void)
 // Interface Prototypes //
 /************************/
 
-void options(void)
+void menuOptions(void)
 {
     printf("options WIP");
 }
-void info(void)
+
+void menuInfo(void)
 {
     printf("info WIP");
 }
-void credits(void)
+
+void menuCredits(void)
 {
     printf("credits WIP");
+}
+
+bool menuSaves(int saveNum)
+{
+    // If save exists, spit out true
+    if (saveNum == 1)
+    {
+        printf("\nyou successfully chose save %i\n", saveNum);
+        return true;
+    }
+    else
+    {
+        printf("\ndoes not compute\n");
+        return false;
+    }
 }
 
 /**********************/
@@ -92,7 +121,7 @@ void wait(float seconds)
     usleep(milliseconds * 1000.0f);
 }
 
-void line(int astNum, int astSpace, int nlBefore, int nlAfter)
+void lineBreak(int astNum, int astSpace, int nlBefore, int nlAfter)
 {
     int arrEnd = 1;
     

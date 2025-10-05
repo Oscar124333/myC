@@ -4,13 +4,15 @@ Setting is a small town, route will be between two places. Capability to unlock 
 
 ## Plan
 Start with a storyline; you have to get to school on time everyday
+Write at least one function when I have free time
 
 ## To Do
 - Refactor/enumerate prompts
-    - Simplify repetitive decor (stars, lines, etc) via loops
-    - Have several prototypes and function calls for such
+    -(x) Simplify repetitive decor (stars, lines, etc) via loops
+    -(x) Have several prototypes and function calls for such
     - Automatic prompts and notification system (notifs optional)
 - In-game day system
+- Save system with file I/O
 - Collection of events, modifiers, and accidents
 
 ## Ideas
