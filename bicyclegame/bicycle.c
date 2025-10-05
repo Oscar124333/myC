@@ -1,27 +1,90 @@
 #include <stdio.h>
-#include <math.h>
 #include <unistd.h>
 
-// Variable Declaratiom
+// Variable Declarations
 int userInput;
 
-// Functional Prototypes
+// Gameplay Prototypes
 
 // Utility Prototypes
 void wait(float seconds);
-void lines(int num, int strAmnt, int newline);
+void line(int astNum, int astSpace, int nlBefore, int nlAfter);
+
+// Interface Prototypes
+void options(void);
+void info(void);
+void credits(void);
 
 int main(void)
-{/*
+{
+    line(20,1,3,0);
     printf("Welcome to Oscar's Bicycle Game!\n");
     printf("Please use numbers to indicate your choices.\n");
-    printf("1: Start\n2: Options");
-    scanf("%i", &userInput);
-    printf("\nYou input: %i\n", userInput);
-    */
-    
-    lines(2, 1, 2);
+    enum MenuStart{
+        MS_START = 1,
+        MS_OPTIONS,
+        MS_INFO_HOW,
+        MS_CREDITS,
+        MS_EXIT
+    };
+
+    do   
+    {
+        printf("\n1: Start\n2: Options\n3: Info & How-To\n4: Credits\n5: Exit\n");
+        printf("==> ");
+        scanf("%i", &userInput);
+        printf("\nYou input: %i\n", userInput);
+      
+        line(15, 1, 1, 0);
+        if (userInput == MS_OPTIONS)
+        {
+            options();
+        }
+        else if (userInput == MS_INFO_HOW)
+        {
+            info();
+        }
+        else if (userInput == MS_CREDITS)
+        {
+            credits();
+        }
+        else if (userInput == MS_EXIT)
+        {
+            return 1;
+        }
+        line(15, 1, 1, 0);
+    }
+    while (userInput != MS_START);
+
+    printf("you started the game!\nwow!");
+    line(15, 1, 1, 0);
 }
+
+/***********************/
+// Gameplay Prototypes //
+/***********************/
+
+
+/************************/
+// Interface Prototypes //
+/************************/
+
+void options(void)
+{
+    printf("options WIP");
+}
+void info(void)
+{
+    printf("info WIP");
+}
+void credits(void)
+{
+    printf("credits WIP");
+}
+
+/**********************/
+// Utility Prototypes //
+/**********************/
 
 void wait(float seconds)
 {
@@ -29,41 +92,33 @@ void wait(float seconds)
     usleep(milliseconds * 1000.0f);
 }
 
-void lines(int num, int space, int newline)
+void line(int astNum, int astSpace, int nlBefore, int nlAfter)
 {
-    int strEnd = 1;
-    int strAmnt = num + (space * (num - 1)) + newline + strEnd; // Amount of memory to allocate to str
-    char str[strAmnt];
+    int arrEnd = 1;
     
-    newlineIncr = ceil(newline/2.0); // For the following loop; tells # of extra space at start.
-    for (int i = 0; i < strAmnt; i += space + newlineIncr)
+    int arrSize = astNum + (astSpace *(astNum - 1));
+    int arrSizeTotal = arrSize + nlBefore + nlAfter + arrEnd;
+    char arr[arrSizeTotal];
+    
+    for (int i = nlBefore; i < arrSize + nlBefore; i += astSpace)
     {
-        str[i] = '*';
+        arr[i] = '*';
         i++;
-        for (int j = 0; j < space && i < strAmnt; j++)
+        for (int j = 0; j < astSpace && i < arrSize + nlBefore; j++) // Prevent spaces after final '*'
         {
-            str[i + j] = ' ';
+            arr[i + j] = ' ';
         }
     }
-
-    f(0) = xxx
-    f(1) = []xxx
-    f(2) = []xxx[]
-    f(3) = [][]xxx[]
-    f(4) = [][]xxx[][]
-                 2         4
-    for (int i = 0, j = 0; i < newline; i++)
+    
+    for (int i = 0; i < nlBefore; i++)
     {
-        if (i % 2 = 0)
-        {
-            str[i - (++j)] = '\n'
-        }
-        else
-        {
-            str[strAmnt - i] = '\n'
-        }
+        arr[i] = '\n';
     }
-
-    str[strAmnt] = '\0';
-    printf("%s\n", str);
+    for (int i = 0; i < nlAfter; i++)
+    {
+        arr[arrSize + nlBefore + i] = '\n';
+    }
+    
+    arr[arrSizeTotal - arrEnd] = '\0';
+    printf("%s\n", arr);
 }
