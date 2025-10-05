@@ -11,6 +11,7 @@ int userInput = 0;
 int userSave = 0;
 
 // Gameplay Prototypes
+void gameLoop(void);
 
 // Utility Prototypes
 void wait(float seconds);
@@ -18,10 +19,10 @@ void lineBreak(int astNum, int astSpace, int nlBefore, int nlAfter);
 
 // Interface Prototypes
 void menuMain(void);
-bool menuMain_saves(int saveNum);
 void menuMain_options(void);
 void menuMain_info(void);
 void menuMain_credits(void);
+bool userSaves(void);
 
 int main(void)
 {
@@ -30,15 +31,12 @@ int main(void)
     printf("Please use numbers to indicate your choices.\n");
     
     menuMain();
-    if (userSave == 0)
+
+    if (userInput == EXIT)
     {
         return 1;
     }
-    else if (userSave == -1)
-    {
-        printf("Error: Save not found.\n");
-    }
-    else
+    else if (userSaves())
     {
         printf("Loading save #%i.\n", userSave);
     }
@@ -46,13 +44,18 @@ int main(void)
 }
 
 
-/***********************/
-// Gameplay Prototypes //
-/***********************/
+/**********************/
+// Gameplay Functions //
+/**********************/
 
-/************************/
-// Interface Prototypes //
-/************************/
+void gameLoop(void)
+{
+
+}
+
+/***********************/
+// Interface Functions //
+/***********************/
 
 void menuMain(void)
 {
@@ -75,28 +78,7 @@ void menuMain(void)
         if (userInput == START)
         {
             printf("you started the game! wow!\n");
-        
-            bool saveFound = false;
-            do
-            {
-                lineBreak(lineDefault, 1, 1, 1);
-
-                printf("Please choose your save.\n");
-                printf("==> ");
-                scanf("%i", &userInput);
-                
-                bool saveFound = menuMain_saves(userInput);
-                if (saveFound)
-                {
-                    userSave = userInput;
-                    return;
-                }
-                else
-                {
-                    printf("Save not found.\n");
-                }
-            } while (saveFound != true);
-
+            return;
         }
         else if (userInput == OPTIONS)
         {
@@ -120,19 +102,28 @@ void menuMain(void)
 
 }
 
-bool menuMain_saves(int saveNum)
+bool userSaves(void) // Currently, '1' is the only correct choice.
 {
-    lineBreak(lineDefault, 1, 1, 1);
-    // If save exists, spit out true
-    if (saveNum == 1)
+    do
     {
-        printf("Successfully selected save #%i\n", saveNum);
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+        lineBreak(lineDefault, 1, 1, 1);
+    
+        printf("Please choose your save.\n");
+        printf("==> ");
+        scanf("%i", &userSave);
+        
+        if (userSave == 1)
+        {
+            lineBreak(lineDefault, 1, 1, 1);
+            printf("Successfully selected save #%i.\n", userSave);
+            return true;
+        }
+        else
+        {
+            printf("Save not found.\n");
+        }
+    } while (true);
+
 }
 
 void menuMain_options(void)
@@ -225,9 +216,9 @@ void menuMain_credits(void)
     }
 }
 
-/**********************/
-// Utility Prototypes //
-/**********************/
+/*********************/
+// Utility Functions //
+/*********************/
 
 void wait(float seconds)
 {
