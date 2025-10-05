@@ -2,9 +2,13 @@
 #include <stdbool.h>
 #include <unistd.h>
 
-// Variable Declarations
-int userInput = 0;
+// Constants
+const int EXIT = 9;
+
+// Global Variables
 int lineDefault = 20;
+int userInput = 0;
+int userSave = 0;
 
 // Gameplay Prototypes
 
@@ -13,101 +17,211 @@ void wait(float seconds);
 void lineBreak(int astNum, int astSpace, int nlBefore, int nlAfter);
 
 // Interface Prototypes
-void menuOptions(void);
-void menuInfo(void);
-void menuCredits(void);
-bool menuSaves(int saveNum);
+void menuMain(void);
+bool menuMain_saves(int saveNum);
+void menuMain_options(void);
+void menuMain_info(void);
+void menuMain_credits(void);
 
 int main(void)
 {
-    lineBreak(lineDefault,1,3,0);
+    lineBreak(lineDefault, 1, 1, 1);
     printf("Welcome to Oscar's Bicycle Game!\n");
     printf("Please use numbers to indicate your choices.\n");
-    enum MenuStart{
-        MS_START = 1,
-        MS_OPTIONS,
-        MS_INFO_HOW,
-        MS_CREDITS,
-        MS_EXIT
-    };
-
-    do   
-    {
-        printf("\n1: Start\n2: Options\n3: Info & How-To\n4: Credits\n5: Exit\n");
-        printf("==> ");
-        scanf("%i", &userInput);
-        printf("\nYou input: %i\n", userInput);
-        
-        lineBreak(lineDefault, 1, 1, 0);
-        if (userInput == MS_OPTIONS)
-        {
-            menuOptions();
-        }
-        else if (userInput == MS_INFO_HOW)
-        {
-            menuInfo();
-        }
-        else if (userInput == MS_CREDITS)
-        {
-            menuCredits();
-        }
-        else if (userInput == MS_EXIT)
-        {
-            return 1;
-        }
-        lineBreak(lineDefault, 1, 1, 0);
-    }
-    while (userInput != MS_START);
     
-    printf("you started the game!\nwow!\n");
-
-    lineBreak(lineDefault, 1, 1, 0);
-    printf("please choose your save: ");
-    scanf("%i", &userInput);
-    if (menuSaves(userInput))
+    menuMain();
+    if (userSave == 0)
     {
-        int userSave = userInput;
+        return 1;
     }
-    
-    lineBreak(lineDefault, 1, 0, 0);
+    else if (userSave == -1)
+    {
+        printf("Error: Save not found.\n");
+    }
+    else
+    {
+        printf("Loading save #%i.\n", userSave);
+    }
+    return 0;
 }
+
 
 /***********************/
 // Gameplay Prototypes //
 /***********************/
 
-
 /************************/
 // Interface Prototypes //
 /************************/
 
-void menuOptions(void)
+void menuMain(void)
 {
-    printf("options WIP");
+    lineBreak(lineDefault, 1, 1, 1);
+
+    printf("Main Menu");
+    enum MenuMain{
+        START = 1,
+        OPTIONS,
+        INFO_HOW,
+        CREDITS
+    };
+
+    do   
+    {
+        printf("\n1: Start\n2: Options\n3: Info & How-To\n4: Credits\n9: Exit\n");
+        printf("==> ");
+        scanf("%i", &userInput);
+        
+        if (userInput == START)
+        {
+            printf("you started the game! wow!\n");
+        
+            bool saveFound = false;
+            do
+            {
+                lineBreak(lineDefault, 1, 1, 1);
+
+                printf("Please choose your save.\n");
+                printf("==> ");
+                scanf("%i", &userInput);
+                
+                bool saveFound = menuMain_saves(userInput);
+                if (saveFound)
+                {
+                    userSave = userInput;
+                    return;
+                }
+                else
+                {
+                    printf("Save not found.\n");
+                }
+            } while (saveFound != true);
+
+        }
+        else if (userInput == OPTIONS)
+        {
+            menuMain_options();
+        }
+        else if (userInput == INFO_HOW)
+        {
+            menuMain_info();
+        }
+        else if (userInput == CREDITS)
+        {
+            menuMain_credits();
+        }
+        else if (userInput == EXIT)
+        {
+            lineBreak(lineDefault, 1, 1, 1);
+            printf("Exiting game.\n");
+            return;
+        }
+    } while ((userInput < START || userInput > CREDITS) && userInput != EXIT);
+
 }
 
-void menuInfo(void)
+bool menuMain_saves(int saveNum)
 {
-    printf("info WIP");
-}
-
-void menuCredits(void)
-{
-    printf("credits WIP");
-}
-
-bool menuSaves(int saveNum)
-{
+    lineBreak(lineDefault, 1, 1, 1);
     // If save exists, spit out true
     if (saveNum == 1)
     {
-        printf("\nyou successfully chose save %i\n", saveNum);
+        printf("Successfully selected save #%i\n", saveNum);
         return true;
     }
     else
     {
-        printf("\ndoes not compute\n");
         return false;
+    }
+}
+
+void menuMain_options(void)
+{
+    do
+    {
+        lineBreak(lineDefault, 1, 1, 1);
+        printf("Options\n");
+        printf("9: Exit\n");
+        printf("==> ");
+        scanf("%i", &userInput);
+    } while (userInput != EXIT);
+
+    if (userInput == EXIT)
+    {
+        menuMain();
+        return;
+    }
+}
+
+void menuMain_info(void)
+{
+    enum MenuMainInfo{
+        H2P = 1,
+        LORE
+    };
+    do
+    {
+        lineBreak(lineDefault, 1, 1, 1);
+        printf("Information\n");
+        printf("1: How to Play\n2: Lore\n9: Exit\n");
+        printf("==> ");
+        scanf("%i", &userInput);
+    } while ((userInput < 1 || userInput > 2) && userInput != EXIT);
+    
+    if (userInput == H2P)
+    {
+        do
+        {
+            lineBreak(lineDefault, 1, 1, 1);
+            printf("How to Play WIP\n");
+            printf("9: Exit\n");
+            printf("==> ");
+            scanf("%i", &userInput);
+        } while (userInput != EXIT);
+
+        if (userInput == EXIT)
+        {
+            menuMain_info();
+        }
+    }
+    else if (userInput == LORE)
+    {
+        do
+        {
+            lineBreak(lineDefault, 1, 1, 1);
+            printf("Lore WIP\n");
+            printf("9: Exit\n");
+            printf("==> ");
+            scanf("%i", &userInput);
+        } while (userInput != EXIT);
+        
+        if (userInput == EXIT)
+        {
+            menuMain_info();
+        }
+    }
+    else if (userInput == EXIT)
+    {
+        menuMain();
+        return;
+    }
+}
+
+void menuMain_credits(void)
+{
+    do
+    {
+        lineBreak(lineDefault, 1, 1, 1);
+        printf("Credits WIP\n");
+        printf("9: Exit\n");
+        printf("==> ");
+        scanf("%i", &userInput);
+    } while (userInput != EXIT);
+    
+    if (userInput == EXIT)
+    {
+        menuMain();
+        return;
     }
 }
 
