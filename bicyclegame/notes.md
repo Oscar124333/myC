@@ -2,9 +2,23 @@
 Bicycle incremental with random elements and interactive gameplay.
 Setting is a small town, route will be between two places. Capability to unlock better bikes, better routes, and better upgrades.
 
+
 ## Plan
-Start with a storyline; you have to get to school on time everyday
-Write at least one function when I have free time
++ Start with a storyline; you have to get to school on time everyday
++ Add at least one function every time I have freetime
+
+# Outline/Concepts
+Gameplay (campaign based)
+    - Start
+    - Middle
+    - End
+
+    Progression based on upgrades attained, calculated by averaging the "power" of the bike.
+
+Gameplay (free-play)
+    - No minimum requirement to proceed
+    - Requires random world generation (seed-base?)
+    Progression is player-paced, upgrades are 100% incremental and maps/routes can be randomly generated. 
 
 ## To Do
 - Refactor/enumerate prompts
@@ -14,8 +28,11 @@ Write at least one function when I have free time
 - In-game day system
 - Save system with file I/O
 - Collection of events, modifiers, and accidents
+- Upgrades
+- Speed calculator (repeatedly spits out as match goes on)
 
-## Ideas
+
+## Misc Ideas
 - Shrimp chips currency
 - Weight Management for speed
     - Certain days have different modifiers and events that require items
