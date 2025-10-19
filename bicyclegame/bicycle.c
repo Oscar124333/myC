@@ -3,10 +3,12 @@
 #include <unistd.h>
 
 // Constants
+#define CASEEXIT 9
 const int EXIT = 9;
 
 // Global Variables
 int userInput = 0;
+int userState = 0;
 int userSave = 0;
 
 // Gameplay Prototypes
@@ -17,108 +19,105 @@ void wait(float seconds);
 void lineBreak(void);
 
 // Interface Prototypes
-void menuMain(void);
-void menuMain_options(void);
-void menuMain_info(void);
-void menuMain_credits(void);
+int menuMain_options(void);
+int menuMain_info(void);
+int menuMain_credits(void);
 bool userSaves(void);
 
 int main(void)
 {
-    lineBreak());
-
+    lineBreak();
+    
     printf("Welcome to Oscar's Bicycle Game!\n");
     printf("Please use numbers to indicate your choices.\n");
     
-    menuMain();
+    enum MenuMain{
+        MAIN,
+        START,
+        OPTIONS,
+        INFO_HOW,
+        CREDITS
+    };
+    
+    do   
+    {
+        
+        switch (userState)
+        {
+            case MAIN:
+                lineBreak();
 
-    if (userInput == EXIT)
-    {
-        return 1;
-    }
-    else if (userSaves())
-    {
-        printf("Loading save #%i.\n", userSave);
-        gameOverview();
-    }
-    return 0;
+                printf("Main Menu");
+                printf("\n1: Start\n2: Options\n3: Info & How-To\n4: Credits\n9: Exit\n");
+                printf("==> ");
+                scanf("%i", &userState);
+                break;
+            case START:
+                printf("you started the game! wow!\n");
+                gameOverview();
+                break;
+            case OPTIONS:
+                userState = menuMain_options();
+                break;
+            case INFO_HOW:
+                userState = menuMain_info();
+                break;
+            case CREDITS:
+                userState = menuMain_credits();
+                break;
+            case CASEEXIT:
+                lineBreak();
+                printf("Exiting game.\n");
+                break;
+            default:
+                printf("Pleae try again.\n");
+                userState = MAIN;
+                break;
+        }
+    } while (userState != EXIT);
+
+/*
+*   if (userInput == EXIT)
+*   {
+*       return 1;
+*   }
+*   else if (userSaves())
+*   {
+*       printf("Loading save #%i.\n", userSave);
+*       gameOverview();
+*   }
+*   return 0;
+*/
 }
 
-
-/**********************/
-// Gameplay Functions //
-/**********************/
+/******************************************/
+//           Gameplay Functions           //
+/******************************************/
 
 void gameOverview(void)
 {
     lineBreak();
     
-    char *day[10] = "Monday"
+    char *day[7] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
-    printf("You wake up. It's %s. %s.\n", );
+    printf("You wake up. It's day %i. %s.\n", 1, day[1]);
 
     do
     {
-        printf("Y");
+        printf("Y\n");
         scanf("%i", &userInput);
 
-    } while (userInput != EXIT)
+    } while (userInput != EXIT);
 
     if (userInput == EXIT)
     {
         // some auto save functionality here
-        menuMain();
     }
 }
 
-/***********************/
-// Interface Functions //
-/***********************/
-
-void menuMain(void)
-{
-    lineBreak();
-
-    printf("Main Menu");
-    enum MenuMain{
-        START = 1,
-        OPTIONS,
-        INFO_HOW,
-        CREDITS
-    };
-
-    do   
-    {
-        printf("\n1: Start\n2: Options\n3: Info & How-To\n4: Credits\n9: Exit\n");
-        printf("==> ");
-        scanf("%i", &userInput);
-        
-        if (userInput == START)
-        {
-            printf("you started the game! wow!\n");
-            return;
-        }
-        else if (userInput == OPTIONS)
-        {
-            menuMain_options();
-        }
-        else if (userInput == INFO_HOW)
-        {
-            menuMain_info();
-        }
-        else if (userInput == CREDITS)
-        {
-            menuMain_credits();
-        }
-        else if (userInput == EXIT)
-        {
-            lineBreak();
-            printf("Exiting game.\n");
-            return;
-        }
-    } while ((userInput < START || userInput > CREDITS) && userInput != EXIT);
-
-}
+/*******************************************/
+//           Interface Functions           //
+/*******************************************/
 
 bool userSaves(void) // Currently, '1' is the only correct choice.
 {
@@ -144,30 +143,47 @@ bool userSaves(void) // Currently, '1' is the only correct choice.
 
 }
 
-void menuMain_options(void)
+int menuMain_options(void)
 {
+    enum Options{
+        OPTIONS,
+        PLACEHOLDER
+    };
+
     do
     {
-        lineBreak();
-        printf("Options\n");
-        printf("9: Exit\n");
-        printf("==> ");
-        scanf("%i", &userInput);
-    } while (userInput != EXIT);
+        switch (userInput)
+        {
+            case OPTIONS:
+                lineBreak();
 
-    if (userInput == EXIT)
-    {
-        menuMain();
-        return;
-    }
+                printf("Options\n");
+                printf("9: Exit\n");
+                printf("==> ");
+                scanf("%i", &userInput);
+                break;
+            case PLACEHOLDER:
+                userInput = OPTIONS;
+                break;
+            case CASEEXIT:
+                break;
+            default:
+                printf("Please try again.\n");
+                userInput = OPTIONS;
+                break;
+        }
+    } while (userInput != EXIT);
+    return 0;
 }
 
-void menuMain_info(void)
+int menuMain_info(void)
 {
-    enum MenuMainInfo{
-        H2P = 1,
+    enum Info{
+        INFO,
+        H2P,
         LORE
     };
+
     do
     {
         lineBreak();
@@ -211,13 +227,17 @@ void menuMain_info(void)
     }
     else if (userInput == EXIT)
     {
-        menuMain();
-        return;
+        return 0;
     }
 }
 
-void menuMain_credits(void)
+int menuMain_credits(void)
 {
+    enum Credits{
+        CREDITS,
+        PLACEHOLDER
+    };
+
     do
     {
         lineBreak();
@@ -229,14 +249,13 @@ void menuMain_credits(void)
     
     if (userInput == EXIT)
     {
-        menuMain();
-        return;
+        return 0;
     }
 }
 
-/*********************/
-// Utility Functions //
-/*********************/
+/*****************************************/
+//           Utility Functions           //
+/*****************************************/
 
 void wait(float seconds)
 {

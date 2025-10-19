@@ -7,18 +7,20 @@ Setting is a small town, route will be between two places. Capability to unlock 
 + Start with a storyline; you have to get to school on time everyday
 + Add at least one function every time I have freetime
 
-# Outline/Concepts
-Gameplay (campaign based)
-    - Start
-    - Middle
-    - End
+## Outline/Concepts
 
-    Progression based on upgrades attained, calculated by averaging the "power" of the bike.
+### Gameplay (campaign based)
++ Start
++ Middle
++ End
 
-Gameplay (free-play)
-    - No minimum requirement to proceed
-    - Requires random world generation (seed-base?)
-    Progression is player-paced, upgrades are 100% incremental and maps/routes can be randomly generated. 
+Progression based on upgrades attained, calculated by averaging the "power" of the bike.
+
+### Gameplay (free-play)
++ No minimum requirement to proceed
++ Requires random world generation (seed-base?)    
+
+Progression is player-paced, upgrades are 100% incremental and maps/routes can be randomly generated. 
 
 ## To Do
 - Refactor/enumerate prompts
