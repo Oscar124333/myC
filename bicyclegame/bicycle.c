@@ -1,5 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 #include <unistd.h>
 
 // Constants
@@ -11,13 +13,14 @@ const int EXIT = 9;
 int userInput = 0;
 int userSave = 0;
 int inStatus = 0;
+int lineBreakLen = 20;
 
 // Gameplay Data
-    // Distance is measured in miles * 10; 100 distance = 10 miles
+/*  Distance is measured in miles * 10; 100 distance = 10 miles */
 typedef struct {
     int type;
-    int HP;
     int speed; 
+    int HP;
     float accidentRate;
 } Bicycle;
 Bicycle bike1 = {0, 100, 10, 0.3f};
@@ -35,7 +38,7 @@ int bike_manual(void);
 
 // Utility Prototypes
 void wait(float seconds);
-void lineBreak(void);
+void lineBreak(int astNum);
 int inputHandler(int *variable);
 
 // Interface Prototypes
@@ -58,7 +61,7 @@ int main(void)
         CREDITS
     };
     
-    lineBreak();
+    lineBreak(lineBreakLen);
     
     printf("Welcome to Oscar's Bicycle Game!\n");
     printf("Please use numbers to indicate your choices.\n");
@@ -70,7 +73,7 @@ int main(void)
             case MAIN:
                 do
                 {
-                    lineBreak();
+                    lineBreak(lineBreakLen);
                     
                     printf("Main Menu\n");
                     printf("1: Start\n2: Options\n3: Info & How-To\n4: Credits\n\n9: Exit\n\n");
@@ -97,7 +100,7 @@ int main(void)
                 m_Screen = main_credits();
                 break;
             case CASE_EXIT:
-                lineBreak();
+                lineBreak(lineBreakLen);
                 printf("Exiting game.\n");
                 break;
             default:
@@ -116,10 +119,17 @@ return 0;
 
 int bike_manual(void)
 {
-    lineBreak();
+    lineBreak(lineBreakLen);
 
+    srand(time(NULL));
+    float dEarned = (int)((rand() % (300 - 100)) + 100) / 100.0f;
+    p1.dBal += dEarned;
+    
+    wait(0.5);
     printf("biking...\n"); // will make a automagical function that does dot dot dot for me
-    p1.dBal += 2.5f;
+    wait(0.5);
+    printf("earned %.2f dollars!\n", dEarned);
+    wait(0.5);
 
     return RESET;
 }
@@ -130,7 +140,7 @@ int bike_manual(void)
 
 bool user_saves(void) // Currently, '1' is the only correct choice.
 {
-    lineBreak();
+    lineBreak(lineBreakLen);
 
     do
     {
@@ -140,7 +150,7 @@ bool user_saves(void) // Currently, '1' is the only correct choice.
             printf("\n==> ");
             inStatus = inputHandler(&userSave);
 
-            lineBreak();
+            lineBreak(lineBreakLen);
         } while (inStatus != 1);
         
         if (userSave == 1)
@@ -162,6 +172,7 @@ int main_options(void)
 
     enum Options{
         OPTIONS,
+        LINEBREAKLEN,
         PLACEHOLDER
     };
 
@@ -172,13 +183,27 @@ int main_options(void)
             case OPTIONS:
                 do
                 {
-                    lineBreak();
+                    lineBreak(lineBreakLen);
 
                     printf("Options\n");
-                    printf("\n9: Exit\n\n");
+                    printf("1: Linebreak Length\n2: Placeholder\n\n9: Exit\n\n");
                     printf("==> ");
                     inStatus = inputHandler(&m_opScreen);
                 } while (inStatus != 1);
+                break;
+                case LINEBREAKLEN:
+                do
+                {
+                    lineBreak(lineBreakLen);
+                    
+                    printf("Default LineBreak Length: 20\nPlease enter your desired length\n");
+                    printf("==> ");
+                    inStatus = inputHandler(&lineBreakLen);
+                } while (inStatus != 1);
+
+                printf("\nLineBreak Length set to %d.\n", lineBreakLen);
+
+                m_opScreen = OPTIONS;
                 break;
             case PLACEHOLDER:
                 m_opScreen = OPTIONS;
@@ -211,7 +236,7 @@ int main_info(void)
             case INFO: 
                 do
                 {
-                    lineBreak();
+                    lineBreak(lineBreakLen);
                     
                     printf("Information\n");
                     printf("1: How to Play\n2: Lore\n\n9: Exit\n\n");
@@ -225,7 +250,7 @@ int main_info(void)
                 {
                     do
                     {
-                        lineBreak();
+                        lineBreak(lineBreakLen);
 
                         printf("How to Play WIP\n");
                         printf("\n9: Exit\n\n");
@@ -241,7 +266,7 @@ int main_info(void)
                 {
                     do
                     {
-                        lineBreak();
+                        lineBreak(lineBreakLen);
                         printf("Lore WIP\n");
                         printf("\n9: Exit\n\n");
                         printf("==> ");
@@ -276,7 +301,7 @@ int main_credits(void)
             case CREDITS:
                 do
                 {
-                    lineBreak();
+                    lineBreak(lineBreakLen);
                     
                     printf("Credits WIP\n");
                     printf("\n9: Exit\n\n");
@@ -310,7 +335,7 @@ int game_overview(void)
         ITERATE
     };
 
-    lineBreak();
+    lineBreak(lineBreakLen);
 
     printf("You wake up. It's day %d.\n", 1);
 
@@ -321,7 +346,7 @@ int game_overview(void)
             case OVERVIEW:
                 do
                 {
-                    lineBreak();
+                    lineBreak(lineBreakLen);
 
                     if (true)
                     {
@@ -369,9 +394,8 @@ void wait(float seconds)
     usleep(milliseconds * 1000.0f);
 }
 
-void lineBreak(void)
+void lineBreak(int astNum)
 {
-    int astNum = 20;
     int astSpace = 1;
     int nlBefore = 1;
     int nlAfter  = 1;
