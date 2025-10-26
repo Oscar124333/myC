@@ -8,7 +8,7 @@
 // Globals
 long double MetersFactors[][8] = {
     {1000.0, 1609.34, 1.0, 0.3048, 0.0254, 0.01},
-    {4828.03, 1852, 0.9144, 201.1684, 5.0292, 20.1168, 0.201, 2.54e-5},
+    {4828.03, 1852, 0.9144, 201.1684, 5.0292, 20.11684, 0.2011684, 2.54e-5},
     {100.0, 10.0, 0.1, 0.001, 1e-6}};
 
 typedef struct
@@ -18,77 +18,80 @@ typedef struct
 } Units;
 Units userUnits = {0, 0};
 
+const int DEFAULT = 0;
 const int OTHER = 7;
+
+typedef enum
+{
+    TYPE_INT,
+    TYPE_LONG_DOUBLE
+} DataType;
 
 // Prototypes
 void print_common_measurements(void);
 void print_other_measurements(int userChoice);
 void print_suffix(Units unit);
 
-long double measurement_convert_to_meters(long double measurement, Units unit);
-long double measurement_meters_to_user(long double measurement, Units unit);
+long double convert_to_meters(long double measurement, Units unit);
+long double meters_to_user(long double measurement, Units unit);
 
-int inputHandler(int *variable);
+void promptInput(void *variable, DataType type, char *prompt);
 
 int main(void)
 {
-    int userInput = 0;
-    long double userMeasure = 0.0l;
+    int userInput = DEFAULT;
+    long double userMeasure = 0.0;
 
+    // Convert FROM what
+    print_lineBreak();
     printf("Welcome to Oscar's Measurement Converter!\n\nPlease enter a number corresponding to the unit of measure your measurement is in.\n");
     print_common_measurements();
-    printf("==> ");
-    scanf("%d", &userInput);
+    promptInput(&userInput, TYPE_INT, "==> ");
 
     if (userInput == OTHER)
     {
         printf("\nWhich system do you wish to use?\n1. Imperial\n2. Metric\n");
-        printf("==> ");
-        scanf("%d", &userInput);
+        promptInput(&userInput, TYPE_INT, "==> ");
         userUnits.system = userInput;
 
-        print_other_measurements(userInput);
-        printf("==> ");
-        scanf("%d", &userInput);
+        print_other_measurements(userUnits.system);
+        promptInput(&userInput, TYPE_INT, "==> ");
         userUnits.unit = userInput;
     }
     else
     {
-        userUnits.system = 0;
+        userUnits.system = DEFAULT;
         userUnits.unit = userInput;
     }
-
-    printf("\nPlease enter only the number of your measurement. Decimals are allowed.\n");
-    printf("==> ");
-    scanf("%Lf", &userMeasure);
-    long double userMeters = measurement_convert_to_meters(userMeasure, userUnits);
     Units origUnits = userUnits;
 
-    printf("\n* * * * * * * * * * * * * * *\n");
+    printf("\nPlease enter only the number of your measurement. Decimals are allowed.\n");
+    promptInput(&userMeasure, TYPE_LONG_DOUBLE, "==> ");
+    long double userMeters = convert_to_meters(userMeasure, userUnits);
+
+    // Convert TO what
+    print_lineBreak();
     printf("\nWhat would you like to convert this measurement to?\n");
     print_common_measurements();
-    printf("==> ");
-    scanf("%d", &userInput);
+    promptInput(&userInput, TYPE_INT, "==> ");
 
     if (userInput == OTHER)
     {
         printf("\nWhich system do you wish to convert to?\n1. Imperial\n2. Metric\n");
-        printf("==> ");
-        scanf("%d", &userInput);
+        promptInput(&userInput, TYPE_INT, "==> ");
         userUnits.system = userInput;
 
-        print_other_measurements(userInput);
-        printf("==> ");
-        scanf("%d", &userInput);
+        print_other_measurements(userUnits.system);
+        promptInput(&userInput, TYPE_INT, "==> ");
         userUnits.unit = userInput;
     }
     else
     {
-        userUnits.system = 0;
+        userUnits.system = DEFAULT;
         userUnits.unit = userInput;
     }
 
-    long double userConverted = measurement_meters_to_user(userMeters, userUnits);
+    long double userConverted = meters_to_user(userMeters, userUnits);
     printf("\n%0.2Lf ", userMeasure);
     print_suffix(origUnits);
     printf(", converted to ");
@@ -96,6 +99,10 @@ int main(void)
     print_suffix(userUnits);
     printf("\n");
 }
+
+/*******************************************/
+/*         Preset Print Functions          */
+/*******************************************/
 
 void print_common_measurements(void)
 {
@@ -134,7 +141,17 @@ void print_suffix(Units unit)
     return;
 }
 
-long double measurement_convert_to_meters(long double measurement, Units unit)
+void print_lineBreak(void)
+{
+    printf("\n* * * * * * * * * * * * * * *\n");
+    return;
+}
+
+/*****************************************/
+/*         Conversion Functions          */
+/*****************************************/
+
+long double convert_to_meters(long double measurement, Units unit)
 {
     long double factor = 1.0l;
     long double meters = 1.0l;
@@ -144,7 +161,7 @@ long double measurement_convert_to_meters(long double measurement, Units unit)
     return meters;
 }
 
-long double measurement_meters_to_user(long double measurement, Units unit)
+long double meters_to_user(long double measurement, Units unit)
 {
     long double factor = 1.0l;
     long double measureOut = 1.0l;
@@ -154,18 +171,37 @@ long double measurement_meters_to_user(long double measurement, Units unit)
     return measureOut;
 }
 
-int inputHandler(int *variable)
+/****************************/
+/*         Utility          */
+/****************************/
+
+void promptInput(void *variable, DataType type, char *prompt)
 {
     int status = 0;
     int ch;
-    status = scanf("%d", variable);
-    if (status == 1)
+
+    do
     {
-        return status;
-    }
-    else
-    {
-        while ((ch = getchar()) != '\n' && ch != EOF)
-            ; // Clear buffer
-    }
+        printf("%s", prompt);
+
+        switch (type)
+        {
+        case TYPE_INT:
+            status = scanf("%d", (int *)variable);
+            break;
+        case TYPE_LONG_DOUBLE:
+            status = scanf("%Lf", (long double *)variable);
+            break;
+        default:
+            break;
+        }
+
+        if (status != 1)
+        {
+            while ((ch = getchar()) != '\n' && ch != EOF)
+                ; // Clear buffer
+        }
+    } while (status != 1);
+
+    return;
 }

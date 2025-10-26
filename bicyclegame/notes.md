@@ -1,13 +1,12 @@
 ## Overview
-Bicycle incremental with random elements and interactive gameplay.
-Setting is a small town, route will be between two places. Capability to unlock better bikes, better routes, and better upgrades.
++ Bicycle incremental with random elements and interactive gameplay.
++ Setting is a small town, route will be between two places. Capability to unlock better bikes, better routes, and better upgrades.
++ Inspired by simulator games, Duck Life, AdVenture Capitalist, and especially Earn to Die.
 
 
 ## Plan
 + Start with a storyline; you have to get to school on time everyday
 + Add at least one function every time I have freetime
-
-## Outline/Concepts
 
 ### Gameplay (campaign based)
 + Start

@@ -10,8 +10,10 @@ These projects are usually quite *small*... but a few of them are kind of fun!
   + Writes out the English word for the user's desired __*whole number*__, up to 1 quadrillion not inclusive (15 digits).
 + `diceroll.c`
   + Random D6 roller up to 25 dice, OR manually choose limitless # of sides AND # of dice!
-+ `bicyclegame`
-  + Incremental game centered on a bicycle and a commute to school. Inspired by simulator games, Duck Life, AdVenture Capitalist, and especially Earn to Die. It is currently being worked on in a separate repository, but a very barebones version still exists on here.
++ `bicyclegame/bicycle.c`
+  + Incremental game centered on a bicycle and a commute to school. It is currently being worked on in a separate repository, but a very barebones version still exists on here.
++ `measurements.c`
+  + Converts to and from many measurements, imperial and metric. It is pretty accurate.
 ### Notes
 + `numnames.c` does not work with flat numbers past the thousands... (i.e. 9000000 -> nine million  thousand )
 ## Ideas
