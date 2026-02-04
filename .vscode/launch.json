@@ -4,7 +4,7 @@
             "name": "(gdb) Attach",
             "type": "cppdbg",
             "request": "attach",
-            "program": "${workspaceFolder}/bicycle.c",
+            "program": "${workspaceFolder}/4-5.c",
             "MIMode": "gdb",
             "setupCommands": [
                 {

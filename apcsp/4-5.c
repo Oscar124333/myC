@@ -57,6 +57,7 @@ int main(void)
             for (int j = 0; unsplitArr[j] != ' '; j++)
             {
                 splitArr[i][j] = unsplitArr[j];
+                splitArr[i][j+1] = '\0';
             }
         }
         printf("Hello, %s! I love %s too! Age: %s\n", splitArr[0], splitArr[2], splitArr[1]);
