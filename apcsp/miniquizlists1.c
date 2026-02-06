@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-int randSeeded(int a, int b);
+int randMinMax(int a, int b);
 
 int main(void)
 {
@@ -15,7 +15,7 @@ int main(void)
     
     for (int i = 0; i < randNumList_size; i++)
     {
-        int randomNumber = randSeeded(1, 50);
+        int randomNumber = randMinMax(1, 50);
         randNumList[i] = randomNumber;
     }
 
@@ -60,7 +60,7 @@ int main(void)
     return 0;
 }
 
-int randSeeded(int a, int b)
+int randMinMax(int a, int b)
 {
     int randomInteger = (rand() % (b - a)) + a;
     return randomInteger;
