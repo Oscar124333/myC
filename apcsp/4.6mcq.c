@@ -6,18 +6,18 @@
 
 
 // Prototypes
-int discriminant(int a, int b, int c);
-void quadratic_formula(int a, int b, int c);
+float discriminant(float a, float b, float c);
+void quadratic_formula(float a, float b, float c);
 
 // Global Constants
-int VARIABLEAMOUNT = 3;
-int VARIABLE_A = 0;
-int VARIABLE_B = 1;
-int VARIABLE_C = 2;
+const int VARIABLEAMOUNT = 3;
+const int VARIABLE_A = 0;
+const int VARIABLE_B = 1;
+const int VARIABLE_C = 2;
 
 int main(void)
 {
-    int variableArr[VARIABLEAMOUNT];
+    float variableArr[VARIABLEAMOUNT];
 
     for (int i = 0; i < VARIABLEAMOUNT; i++)
     {
@@ -25,8 +25,8 @@ int main(void)
         int ch;
 
         printf("Enter variable %c: ", 'a' + i);
-        scanStatus = scanf("%i", &variableArr[i]);
-        
+        scanStatus = scanf("%f", &variableArr[i]);
+
         if (scanStatus != 1)
         {
             while ((ch = getchar()) != '\n' && ch != EOF); // Clear buffer
@@ -38,36 +38,39 @@ int main(void)
     return 0;
 }
 
-int discriminant(int a, int b, int c)
+float discriminant(float a, float b, float c)
 {
-    int output = 0;
+    float output = 0;
 
     output = (b*b) - (4*a*c);
     return output;
 }
 
-void quadratic_formula(int a, int b, int c)
+void quadratic_formula(float a, float b, float c)
 {
-    int xPos = 0;
-    int xNeg = 0;
+    float xPos, xNeg, currentDiscriminant;
+    xPos = xNeg = currentDiscriminant = 0;
 
-    int currentDiscriminant = discriminant(a, b, c);
+    currentDiscriminant = discriminant(a, b, c);
+
+    // Imaginary solution
     if (currentDiscriminant < 0)
     {
         printf("Solution not found; it is imaginary.\n");
         return;
     }
     
-    xPos = (-b) + sqrt(currentDiscriminant);
-    xPos /= 2 * a;
-
-    printf("x = %i", xPos);
+    // First solution
+    xNeg = (-b) - sqrt(currentDiscriminant);
+    xNeg /= 2 * a;
+    printf("x = %.3f", xNeg);
     
+    // Second solution
     if (currentDiscriminant != 0)
     {
-        xNeg = (-b) - sqrt(currentDiscriminant);
-        xNeg /= 2 * a;
-        printf(", %i", xNeg);
+        xPos = (-b) + sqrt(currentDiscriminant);
+        xPos /= 2 * a;
+        printf(", %.3f", xPos);
     }
     printf("\n");
     return;
