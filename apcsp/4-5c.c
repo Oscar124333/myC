@@ -9,7 +9,11 @@ int main(void)
     integerInputHandler(&nameAmount);
     char **nameArr = malloc(sizeof(char) * nameAmount);
     
-    char buffer[25]
+    char buffer[25] = {'\0'};
+    if (stringInputHandler(&buffer) != 1)
+    {
+
+    }
 
     return 0;
 }
