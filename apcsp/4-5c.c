@@ -168,8 +168,9 @@ void problem2(void)
 
     /* Problem 2
         Using a loop, ask the user for five numbers. Store those numbers in a list. Each time you add a new number to your list, print the list. (Your list will initially be empty.)
-        You should report the sum of the numbers in the list at the end. */
-
+        You should report the sum of the numbers in the list at the end.
+    */
+    
     const int FIVE = 5;   // just for problem 2
     int userNumList[FIVE];
     printf("** Enter %i numbers. **\n", FIVE);
